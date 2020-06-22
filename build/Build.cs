@@ -87,7 +87,7 @@ class Build : NukeBuild
 
             if (!string.IsNullOrWhiteSpace(BranchName) && BranchName != "master")
             {
-                version += "-" + BranchName.Replace("/", "_");
+                version += "-" + BranchName.Replace("/", "-");
             }
 
             return version;
