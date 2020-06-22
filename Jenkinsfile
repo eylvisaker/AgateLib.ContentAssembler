@@ -16,20 +16,17 @@ pipeline {
     }
     stage('Build') {
       steps {
-        echo 'Testing...'
-        powershell './build.ps1 Compile -stampversion -build-number $env:BUILD_NUMBER -branch-name $env:BRANCH_NAME'
+        powershell './build.ps1 Compile -configuration Release -build-number $env:BUILD_NUMBER -branch-name $env:BRANCH_NAME'
       }
     }
     stage('Test') {
       steps {
-        echo 'Testing...'
-        powershell './build.ps1 Test -stampversion -configuration Release_Test -build-number $env:BUILD_NUMBER -branch-name $env:BRANCH_NAME --skip'
+        powershell './build.ps1 Test -configuration Release -build-number $env:BUILD_NUMBER -branch-name $env:BRANCH_NAME --skip'
       }
     }
     stage('Package') {
       steps {
-        echo 'Packaging...'
-        powershell './build.ps1 Package -stampversion -targets Windows,Linux,MacOS -configuration Release_WindowsDX -build-number $env:BUILD_NUMBER -branch-name $env:BRANCH_NAME --skip'
+        powershell './build.ps1 Pack -configuration Release -build-number $env:BUILD_NUMBER -branch-name $env:BRANCH_NAME --skip'
       }
     }
   }

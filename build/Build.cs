@@ -23,10 +23,19 @@ class Build : NukeBuild
     ///   - Microsoft VisualStudio     https://nuke.build/visualstudio
     ///   - Microsoft VSCode           https://nuke.build/vscode
 
-    public static int Main () => Execute<Build>(x => x.Test);
+    public static int Main() => Execute<Build>(x => x.Test);
 
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
+
+    [Parameter("Set during automated build to write the version.")]
+    readonly bool StampVersion;
+
+    [Parameter("Sets the third number in the version 1.2.X.4")]
+    readonly string BuildNumber = "0";
+
+    [Parameter("Overrides the branch name from git.")]
+    readonly string BranchName;
 
     [Solution] readonly Solution Solution;
     [GitRepository] readonly GitRepository GitRepository;
@@ -48,6 +57,7 @@ class Build : NukeBuild
         .Executes(() =>
         {
             DotNetRestore(s => s
+                .SetVersion(Version)
                 .SetProjectFile(Solution));
         });
 
@@ -55,17 +65,60 @@ class Build : NukeBuild
         .DependsOn(Restore)
         .Executes(() =>
         {
+            Console.WriteLine("Setting version to " + Version);
             DotNetBuild(s => s
-                .SetProjectFile(Solution)
+                .SetVersion(Version)
                 .SetConfiguration(Configuration)
+                .SetProjectFile(Solution)
                 .EnableNoRestore());
         });
+
+    private string Version
+    {
+        get
+        {
+            string version = System.IO.File.ReadAllText("version.info");
+            version += "." + BuildNumber.ToString();
+
+            if (!string.IsNullOrWhiteSpace(BranchName) && BranchName != "master")
+            {
+                version += "-" + BranchName.Replace("/", "_");
+            }
+
+            return version;
+        }
+    }
 
     Target Test => _ => _
         .DependsOn(Compile)
         .Executes(() =>
         {
             DotNetTest(s => s
+                .SetConfiguration(Configuration)
                 .SetProjectFile(Solution));
         });
+
+    Target Pack => _ => _
+        .DependsOn(Compile)
+        .Executes(() =>
+        {
+            DotNetPack(s => s
+                .SetVersion(Version)
+                .SetConfiguration(Configuration)
+                .SetProject("src/AgateLib.ContentAssembler"));
+
+            DotNetPack(s => s
+                .SetVersion(Version)
+                .SetConfiguration(Configuration)
+                .SetProject("src/AgateLib.ContentModel"));
+        });
+
+
+    private string JulianDate()
+    {
+        var now = DateTime.Now;
+
+        return $"{(now.Year % 100):00}{now.DayOfYear:000}";
+    }
+
 }
