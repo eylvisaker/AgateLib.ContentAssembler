@@ -10,7 +10,7 @@ pipeline {
     environment {
         NUGET_APIKEY = credentials('nuget-api-key')
     }
-    
+
     stages {
         stage('Checkout') {
             steps {
@@ -35,7 +35,7 @@ pipeline {
         }
         stage('Publish') {
             steps {
-                powershell './build.ps1 Push -nugetapikey $env:NUGET_APIKEY -configuration Release -build-number $env:BUILD_NUMBER -branch-name $env:BRANCH_NAME --skip'
+                powershell './build.ps1 Publish -nugetapikey $env:NUGET_APIKEY -configuration Release -build-number $env:BUILD_NUMBER -branch-name $env:BRANCH_NAME --skip'
             }
         }
     }
