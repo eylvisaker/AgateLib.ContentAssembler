@@ -47,7 +47,7 @@ pipeline {
 
     post {
         always {
-            nunit testResultsPattern: 'artifacts/**.xml'
+            nunit testResultsPattern: 'artifacts/**/*.xml'
         }
         failure {
             script {
