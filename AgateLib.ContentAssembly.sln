@@ -1,0 +1,82 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30204.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{9E529145-DAE9-42B3-93C1-5D2062B47437}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F257F184-50AA-4547-B00C-E7029FD047C3}"
+	ProjectSection(SolutionItems) = preProject
+		Jenkinsfile = Jenkinsfile
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgateLib.ContentAssembler", "src\AgateLib.ContentAssembler\AgateLib.ContentAssembler.csproj", "{881907AD-D83F-4BD3-B50F-AFE181EA0C3C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgateLib.ContentModel", "src\AgateLib.ContentModel\AgateLib.ContentModel.csproj", "{601879D1-124E-4B7E-BD47-79B32D907B4F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgateLib.ContentAssembler.UnitTests", "tests\AgateLib.ContentAssembler.UnitTests\AgateLib.ContentAssembler.UnitTests.csproj", "{75CD8B47-BDFE-49E6-890A-5CB4F3A2EBD7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release_DesktopGL|Any CPU = Release_DesktopGL|Any CPU
+		Release_Test|Any CPU = Release_Test|Any CPU
+		Release_WindowsDX|Any CPU = Release_WindowsDX|Any CPU
+		Release|Any CPU = Release|Any CPU
+		Test|Any CPU = Test|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9E529145-DAE9-42B3-93C1-5D2062B47437}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E529145-DAE9-42B3-93C1-5D2062B47437}.Release_DesktopGL|Any CPU.ActiveCfg = Release|Any CPU
+		{9E529145-DAE9-42B3-93C1-5D2062B47437}.Release_DesktopGL|Any CPU.Build.0 = Release|Any CPU
+		{9E529145-DAE9-42B3-93C1-5D2062B47437}.Release_Test|Any CPU.ActiveCfg = Release|Any CPU
+		{9E529145-DAE9-42B3-93C1-5D2062B47437}.Release_Test|Any CPU.Build.0 = Release|Any CPU
+		{9E529145-DAE9-42B3-93C1-5D2062B47437}.Release_WindowsDX|Any CPU.ActiveCfg = Release|Any CPU
+		{9E529145-DAE9-42B3-93C1-5D2062B47437}.Release_WindowsDX|Any CPU.Build.0 = Release|Any CPU
+		{9E529145-DAE9-42B3-93C1-5D2062B47437}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E529145-DAE9-42B3-93C1-5D2062B47437}.Test|Any CPU.ActiveCfg = Release|Any CPU
+		{9E529145-DAE9-42B3-93C1-5D2062B47437}.Test|Any CPU.Build.0 = Release|Any CPU
+		{881907AD-D83F-4BD3-B50F-AFE181EA0C3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{881907AD-D83F-4BD3-B50F-AFE181EA0C3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{881907AD-D83F-4BD3-B50F-AFE181EA0C3C}.Release_DesktopGL|Any CPU.ActiveCfg = Release|Any CPU
+		{881907AD-D83F-4BD3-B50F-AFE181EA0C3C}.Release_DesktopGL|Any CPU.Build.0 = Release|Any CPU
+		{881907AD-D83F-4BD3-B50F-AFE181EA0C3C}.Release_Test|Any CPU.ActiveCfg = Release|Any CPU
+		{881907AD-D83F-4BD3-B50F-AFE181EA0C3C}.Release_Test|Any CPU.Build.0 = Release|Any CPU
+		{881907AD-D83F-4BD3-B50F-AFE181EA0C3C}.Release_WindowsDX|Any CPU.ActiveCfg = Release|Any CPU
+		{881907AD-D83F-4BD3-B50F-AFE181EA0C3C}.Release_WindowsDX|Any CPU.Build.0 = Release|Any CPU
+		{881907AD-D83F-4BD3-B50F-AFE181EA0C3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{881907AD-D83F-4BD3-B50F-AFE181EA0C3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{881907AD-D83F-4BD3-B50F-AFE181EA0C3C}.Test|Any CPU.ActiveCfg = Debug|Any CPU
+		{881907AD-D83F-4BD3-B50F-AFE181EA0C3C}.Test|Any CPU.Build.0 = Debug|Any CPU
+		{601879D1-124E-4B7E-BD47-79B32D907B4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{601879D1-124E-4B7E-BD47-79B32D907B4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{601879D1-124E-4B7E-BD47-79B32D907B4F}.Release_DesktopGL|Any CPU.ActiveCfg = Release_DesktopGL|Any CPU
+		{601879D1-124E-4B7E-BD47-79B32D907B4F}.Release_DesktopGL|Any CPU.Build.0 = Release_DesktopGL|Any CPU
+		{601879D1-124E-4B7E-BD47-79B32D907B4F}.Release_Test|Any CPU.ActiveCfg = Release_Test|Any CPU
+		{601879D1-124E-4B7E-BD47-79B32D907B4F}.Release_Test|Any CPU.Build.0 = Release_Test|Any CPU
+		{601879D1-124E-4B7E-BD47-79B32D907B4F}.Release_WindowsDX|Any CPU.ActiveCfg = Release_WindowsDX|Any CPU
+		{601879D1-124E-4B7E-BD47-79B32D907B4F}.Release_WindowsDX|Any CPU.Build.0 = Release_WindowsDX|Any CPU
+		{601879D1-124E-4B7E-BD47-79B32D907B4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{601879D1-124E-4B7E-BD47-79B32D907B4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{601879D1-124E-4B7E-BD47-79B32D907B4F}.Test|Any CPU.ActiveCfg = Test|Any CPU
+		{601879D1-124E-4B7E-BD47-79B32D907B4F}.Test|Any CPU.Build.0 = Test|Any CPU
+		{75CD8B47-BDFE-49E6-890A-5CB4F3A2EBD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75CD8B47-BDFE-49E6-890A-5CB4F3A2EBD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75CD8B47-BDFE-49E6-890A-5CB4F3A2EBD7}.Release_DesktopGL|Any CPU.ActiveCfg = Release|Any CPU
+		{75CD8B47-BDFE-49E6-890A-5CB4F3A2EBD7}.Release_DesktopGL|Any CPU.Build.0 = Release|Any CPU
+		{75CD8B47-BDFE-49E6-890A-5CB4F3A2EBD7}.Release_Test|Any CPU.ActiveCfg = Release|Any CPU
+		{75CD8B47-BDFE-49E6-890A-5CB4F3A2EBD7}.Release_Test|Any CPU.Build.0 = Release|Any CPU
+		{75CD8B47-BDFE-49E6-890A-5CB4F3A2EBD7}.Release_WindowsDX|Any CPU.ActiveCfg = Release|Any CPU
+		{75CD8B47-BDFE-49E6-890A-5CB4F3A2EBD7}.Release_WindowsDX|Any CPU.Build.0 = Release|Any CPU
+		{75CD8B47-BDFE-49E6-890A-5CB4F3A2EBD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75CD8B47-BDFE-49E6-890A-5CB4F3A2EBD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75CD8B47-BDFE-49E6-890A-5CB4F3A2EBD7}.Test|Any CPU.ActiveCfg = Debug|Any CPU
+		{75CD8B47-BDFE-49E6-890A-5CB4F3A2EBD7}.Test|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2C01B0AD-D89B-4AF0-8997-582C6666E0E1}
+	EndGlobalSection
+EndGlobal
