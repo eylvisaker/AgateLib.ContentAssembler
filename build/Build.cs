@@ -100,6 +100,7 @@ class Build : NukeBuild
         {
             DotNetTest(s => s
                 .SetConfiguration(Configuration)
+                .SetLogger("nunit;LogFilePath=" + ArtifactsDirectory / $"tests/UnitTests-{ArchiveVersionStamp}.xml")
                 .SetProjectFile(Solution));
         });
 
