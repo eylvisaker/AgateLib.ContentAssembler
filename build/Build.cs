@@ -134,6 +134,7 @@ class Build : NukeBuild
                    if (BranchName != "master" && BranchName != "devel") 
                    {
                        Console.WriteLine($"File {x} is not designated for pushing as release or prerelease Nuget package.");
+                       return;
                    }
 
                    DotNetNuGetPush(s => s
