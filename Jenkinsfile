@@ -38,11 +38,16 @@ pipeline {
                 powershell './build.ps1 Publish -nugetapikey $env:NUGET_APIKEY -configuration Release -build-number $env:BUILD_NUMBER -branch-name $env:BRANCH_NAME --skip'
             }
         }
+        stage('Archive Artifacts') {
+            steps {
+                archiveArtifacts artifacts: 'artifacts/**'
+            }
+        }
     }
 
     post {
         always {
-            nunit testResultsPattern: 'artifacts/**/tests/*.xml'
+            nunit testResultsPattern: 'artifacts/**/*.xml'
         }
         failure {
             script {
