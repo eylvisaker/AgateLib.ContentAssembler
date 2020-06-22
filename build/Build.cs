@@ -126,7 +126,7 @@ class Build : NukeBuild
         .DependsOn(Pack)
         .Executes(() => 
         {
-            GlobFiles(SourceDirectory, "src/**/*.nupkg")
+            GlobFiles(SourceDirectory, "**/*.nupkg")
                .NotEmpty()
                .ForEach(x =>
                {
