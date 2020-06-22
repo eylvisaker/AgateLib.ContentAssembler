@@ -29,8 +29,8 @@ pipeline {
                 powershell './build.ps1 Pack -configuration Release -build-number $env:BUILD_NUMBER -branch-name $env:BRANCH_NAME --skip'
             }
         }
-        withCredentials([string(credentialsId: 'nuget-api-key', variable: 'NUGET_APIKEY')]) {
-            steps {
+        stage('Publish') {
+            withCredentials([string(credentialsId: 'nuget-api-key', variable: 'NUGET_APIKEY')]) {
                 powershell './build.ps1 Push -nugetapi $env:NUGET_APIKEY -configuration Release -build-number $env:BUILD_NUMBER -branch-name $env:BRANCH_NAME --skip'
             }
         }
