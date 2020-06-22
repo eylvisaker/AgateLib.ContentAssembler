@@ -1,0 +1,8 @@
+ <Project>
+  <PropertyGroup>
+    <Authors>Erik Ylvisaker</Authors>
+    <RepositoryUrl>https://github.com/eylvisaker/AgateLib.ContentAssembler</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/eylvisaker/AgateLib.ContentAssembler</PackageProjectUrl>
+    <PackageLicense>https://raw.githubusercontent.com/eylvisaker/AgateLib.ContentAssembler/master/Jenkinsfile/LICENSE</PackageLicense>
+  </PropertyGroup>
+</Project>

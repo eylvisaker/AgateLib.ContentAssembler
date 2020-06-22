@@ -130,6 +130,11 @@ class Build : NukeBuild
                .NotEmpty()
                .ForEach(x =>
                {
+                   if (BranchName != "master" && BranchName != "devel") 
+                   {
+                       Console.WriteLine($"File {x} is not designated for pushing as release or prerelease Nuget package.");
+                   }
+
                    DotNetNuGetPush(s => s
                        .SetTargetPath(x)
                        .SetSource(NugetApiUrl)
