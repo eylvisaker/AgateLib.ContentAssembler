@@ -34,6 +34,11 @@ class Build : NukeBuild
     [Parameter("Sets the third number in the version 1.2.X.4")]
     readonly string BuildNumber = "0";
 
+    [Parameter("The NuGet API key for publishing")]
+    readonly string NugetApiKey = "";
+
+    [Parameter] 
+    readonly string NugetApiUrl = "https://api.nuget.org/v3/index.json"; //default
     [Parameter("Overrides the branch name from git.")]
     readonly string BranchName;
 
@@ -105,31 +110,32 @@ class Build : NukeBuild
             DotNetPack(s => s
                 .SetVersion(Version)
                 .SetConfiguration(Configuration)
-                .SetNoBuild(true)
-                .SetProject("src/AgateLib.ContentAssembler"));
+                .EnableNoBuild()
+                .EnableNoRestore()
+                .SetProject("src/AgateLib.ContentModel"));
 
             DotNetPack(s => s
                 .SetVersion(Version)
                 .SetConfiguration(Configuration)
-                .SetNoBuild(true)
-                .SetProject("src/AgateLib.ContentModel"));
+                .EnableNoBuild()
+                .EnableNoRestore()
+                .SetProject("src/AgateLib.ContentAssembler"));
         });
 
     Target Publish => _ => _
         .DependsOn(Pack)
         .Executes(() => 
         {
-            DotNetPublish(s => s
-                .SetVersion(Version)
-                .SetConfiguration(Configuration)
-                .SetNoBuild(true)
-                );
+            GlobFiles(NugetDirectory, "src/***.nupkg")
+               .NotEmpty()
+               .ForEach(x =>
+               {
+                   DotNetNuGetPush(s => s
+                       .SetTargetPath(x)
+                       .SetSource(NugetApiUrl)
+                       .SetApiKey(NugetApiKey)
+                   );
+               });
         });
-    private string JulianDate()
-    {
-        var now = DateTime.Now;
-
-        return $"{(now.Year % 100):00}{now.DayOfYear:000}";
-    }
-
+        
 }

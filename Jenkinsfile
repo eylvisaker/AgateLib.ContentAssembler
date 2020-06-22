@@ -31,7 +31,7 @@ pipeline {
         }
         stage('Publish') {
             withCredentials([string(credentialsId: 'nuget-api-key', variable: 'NUGET_APIKEY')]) {
-                powershell './build.ps1 Push -nugetapi $env:NUGET_APIKEY -configuration Release -build-number $env:BUILD_NUMBER -branch-name $env:BRANCH_NAME --skip'
+                powershell './build.ps1 Push -nugetapikey $env:NUGET_APIKEY -configuration Release -build-number $env:BUILD_NUMBER -branch-name $env:BRANCH_NAME --skip'
             }
         }
     }
