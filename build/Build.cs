@@ -105,15 +105,26 @@ class Build : NukeBuild
             DotNetPack(s => s
                 .SetVersion(Version)
                 .SetConfiguration(Configuration)
+                .SetNoBuild(true)
                 .SetProject("src/AgateLib.ContentAssembler"));
 
             DotNetPack(s => s
                 .SetVersion(Version)
                 .SetConfiguration(Configuration)
+                .SetNoBuild(true)
                 .SetProject("src/AgateLib.ContentModel"));
         });
 
-
+    Target Publish => _ => _
+        .DependsOn(Pack)
+        .Executes(() => 
+        {
+            DotNetPublish(s => s
+                .SetVersion(Version)
+                .SetConfiguration(Configuration)
+                .SetNoBuild(true)
+                );
+        });
     private string JulianDate()
     {
         var now = DateTime.Now;
