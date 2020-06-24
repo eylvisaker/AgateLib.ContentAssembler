@@ -7,21 +7,12 @@ namespace App
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-
-        }
-
-        protected override void Initialize()
-        {
-            // TODO: Add your initialization logic here
-
-            base.Initialize();
         }
 
         protected override void LoadContent()

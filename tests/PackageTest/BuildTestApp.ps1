@@ -1,19 +1,4 @@
 try {
-    # Building the product
-    Push-Location -Path "..\..\"
-    .\build.ps1 pack 
-    If ($lastExitCode -ne "0") {
-        throw "FAILURE TO BUILD PACKAGE"
-    }
-}
-catch {
-    throw "FAILURE!!!"
-}
-finally {
-    Pop-Location
-}
-
-try {
     mkdir -p "Test/App" -ea 0
     mkdir -p "Test/NugetFeed" -ea 0
     mkdir -p "Test/packages" -ea 0
@@ -59,9 +44,19 @@ try {
     }
 
     dotnet restore --packages "$packages"
-    dotnet build
-    dotnet run
+    If ($lastExitCode -ne "0") {
+        throw "FAILURE TO RESTORE"
+    }
 
+    dotnet build
+    If ($lastExitCode -ne "0") {
+        throw "FAILURE TO BUILD TEST APP"
+    }
+
+    dotnet run
+    If ($lastExitCode -ne "0") {
+        throw "FAILURE TO RUN TEST APP"
+    }
 }
 finally {
     Pop-Location

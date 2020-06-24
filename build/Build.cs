@@ -49,6 +49,9 @@ class Build : NukeBuild
     AbsolutePath TestsDirectory => RootDirectory / "tests";
     AbsolutePath ArtifactsDirectory => RootDirectory / "artifacts";
 
+    [PathExecutable(@"powershell.exe")]
+    readonly Tool Powershell;
+
     Target Clean => _ => _
         .Before(Restore)
         .Executes(() =>
@@ -124,8 +127,16 @@ class Build : NukeBuild
                 .SetProject("src/AgateLib.ContentAssembler.Task"));
         });
 
-    Target Publish => _ => _
+    Target IntegrationTest => _ => _
         .DependsOn(Pack)
+        .Executes(() => 
+        {
+            Powershell("./BuildTestApp.ps1",
+                       "tests/PackageTest");
+        });
+
+    Target Publish => _ => _
+        .DependsOn(IntegrationTest)
         .Executes(() => 
         {
             GlobFiles(SourceDirectory, "**/*.nupkg")

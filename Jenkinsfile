@@ -23,7 +23,7 @@ pipeline {
                 powershell './build.ps1 Compile -configuration Release -build-number $env:BUILD_NUMBER -branch-name $env:BRANCH_NAME'
             }
         }
-        stage('Test') {
+        stage('Unit Test') {
             steps {
                 powershell './build.ps1 Test -configuration Release -build-number $env:BUILD_NUMBER -branch-name $env:BRANCH_NAME --skip'
             }
@@ -31,6 +31,11 @@ pipeline {
         stage('Package') {
             steps {
                 powershell './build.ps1 Pack -configuration Release -build-number $env:BUILD_NUMBER -branch-name $env:BRANCH_NAME --skip'
+            }
+        }
+        stage('Integration Test') {
+            steps {
+                powershell './build.ps1 IntegrationTest -configuration Release -build-number $env:BUILD_NUMBER -branch-name $env:BRANCH_NAME --skip'
             }
         }
         stage('Publish') {
