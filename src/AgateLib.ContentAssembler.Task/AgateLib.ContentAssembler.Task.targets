@@ -1,0 +1,109 @@
+<Project>
+    <!-- This file follows closely the structure of the MonoGame.Content.Builder.Task project located at:
+       https://github.com/MonoGame/MonoGame/tree/develop/Tools/MonoGame.Content.Builder.Task
+    -->
+
+    <!-- Add AgateLibContentAssembler to item type selection in Visual Studio -->
+    <ItemGroup>
+        <AvailableItemName Include="AgateLibContentAssembler" />
+    </ItemGroup>
+
+    <!-- This disables the IDE feature that skips executing msbuild in some build situations. -->
+    <PropertyGroup>
+        <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
+    </PropertyGroup>
+
+    <!--
+    Target flow
+      1. CollectAssemblyFiles
+      2. PrepareContentBuilder
+      3. RunContentBuilder
+      4. IncludeContent
+    -->
+  
+    <!--
+    ========================
+    CollectAssemblyFiles
+    ========================
+
+    Converts AgateLibContentAssembler items to ContentAssemblyFile items, deriving the necessary metadata.
+
+    Outputs:
+      - ContentReference: references to *.alca files that can be built with AgateLib.ContentAssembler
+        - FullDir: the absolute path of the folder containing the *.alca file
+        - ContentDir: the relative path of the resource folder to contain the content files
+        - ContentOutputDir: the absolute path of the bin folder containing final built content
+        - ContentIntermediateOutputDir: the absolute path of the obj folder containing intermediate content
+
+    Example:
+      - Given the following file setup:
+        - C:\Game\Game.Shared\Content.mgcb
+        - C:\Game\Game.DesktopGL\Game.DesktopGL.csproj
+          - MonoGameContentReference: ..\Game.Shared\Content.mgcb
+      - Output:
+        - ContentReference
+          - FullDir: C:/Game/Game.Shared/
+          - ContentDir: Game.Shared/
+          - ContentOutputDir: C:/Game/Game.Shared/bin/DesktopGL/Content
+          - ContentIntermediateOutputDir: C:/Game/Game.Shared/obj/DesktopGL/Content
+  -->
+    <Target Name="CollectAssemblyFiles">
+
+        <ItemGroup Condition="'$(EnableContentAssembler)' == 'true'">
+            <AgateLibContentAssembler Include="**/*.alca" />
+        </ItemGroup>
+
+        <ItemGroup>
+
+            <!-- Start with existing metadata. -->
+            <ContentAssemblyFile Include="@(AgateLibContentAssembler)">
+                <Link>%(AgateLibContentAssembler.Link)</Link>
+                <FullDir>%(AgateLibContentAssembler.RootDir)%(AgateLibContentAssembler.Directory)</FullDir>
+                <ContentFolder>%(AgateLibContentAssembler.ContentFolder)</ContentFolder>
+                <OutputFolder>%(AgateLibContentAssembler.Filename)</OutputFolder>
+            </ContentAssemblyFile>
+
+            <!--
+                Process intermediate metadata.
+                Switch all back-slashes to forward-slashes so the ALCA command doesn't think it's trying to escape characters or quotes.
+                ContentFolder will be the name of the containing folder (using the Link if it exists) so the directory structure of the 
+                included content mimics that of the source content.
+            -->
+            <ContentAssemblyFile>
+                <FullDir>$([System.String]::Copy("%(FullDir)").Replace('\','/'))</FullDir>
+                <ContentFolder Condition="'%(ContentFolder)' == '' AND '%(Link)' != ''">$([System.IO.Path]::GetDirectoryName(%(Link)))</ContentFolder>
+                <ContentFolder Condition="'%(ContentFolder)' == '' AND '%(Link)' == '' AND '%(RelativeDir)' != ''">$([System.IO.Path]::GetFileName($([System.IO.Path]::GetDirectoryName(%(RelativeDir)))))</ContentFolder>
+            </ContentAssemblyFile>
+
+            <!-- Assemble final metadata. -->
+            <ContentAssemblyFile>
+                <ContentDir>%(ContentFolder)/</ContentDir>
+                <ContentOutputDir>%(FullDir)bin/$(MonoGamePlatform)/%(OutputFolder)</ContentOutputDir>
+                <ContentIntermediateOutputDir>%(FullDir)obj/$(MonoGamePlatform)/%(OutputFolder)</ContentIntermediateOutputDir>
+            </ContentAssemblyFile>
+
+        </ItemGroup>
+
+    </Target>
+
+    <!--
+    =====================
+    AssembleContent
+    =====================
+
+    Runs the content assembler.
+    This is set to run before the MonoGame Content Builder's CollectContentReferences target.
+
+    Outputs:
+      - PlatformResourcePrefix: the platform-specific prefix for included content paths
+      - MonoGameMGCBAdditionalArguments: extra arguments to add to the MGCB call
+    -->
+    <Target Name="AssembleContent" DependsOnTargets="CollectAssemblyFiles" BeforeTargets="CollectContentReferences">
+
+        <!-- Execute ALCA from the project directory so we use the correct manifest. -->
+        <Exec Condition="'%(ContentAssemblyFile.FullPath)' != ''" 
+              Command="$(DotnetCommand) $(AlcaPath) &quot;%(ContentAssemblyFile.FullPath)&quot; " WorkingDirectory="$(MSBuildProjectDirectory)" />
+
+    </Target>
+
+</Project>

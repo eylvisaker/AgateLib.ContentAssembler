@@ -105,22 +105,23 @@ class Build : NukeBuild
         });
 
     Target Pack => _ => _
-        .DependsOn(Compile)
+        .DependsOn(Test)
         .Executes(() =>
         {
             DotNetPack(s => s
                 .SetVersion(Version)
                 .SetConfiguration(Configuration)
-                .EnableNoBuild()
-                .EnableNoRestore()
                 .SetProject("src/AgateLib.ContentModel"));
 
             DotNetPack(s => s
                 .SetVersion(Version)
                 .SetConfiguration(Configuration)
-                .EnableNoBuild()
-                .EnableNoRestore()
                 .SetProject("src/AgateLib.ContentAssembler"));
+                
+            DotNetPack(s => s
+                .SetVersion(Version)
+                .SetConfiguration(Configuration)
+                .SetProject("src/AgateLib.ContentAssembler.Task"));
         });
 
     Target Publish => _ => _

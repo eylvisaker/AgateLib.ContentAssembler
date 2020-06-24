@@ -13,27 +13,36 @@ namespace AgateLib.ContentAssembler
         public static int Main(string[] args)
         {
             int exitCode = 0;
+            
+            Console.WriteLine("AgateLib Content Assembler " + typeof(EntryPoint).Assembly.GetName().Version.ToString());
+            Console.WriteLine("===================================");
 
             Parser.Default.ParseArguments<Options>(args)
                 .WithParsed(options =>
                 {
-                    try
+                    foreach(string file in options.Files) 
                     {
-                        var builder = new ContentPipelineBuilder(options, new SystemIOFileSystem(), new ConsoleLogger());
-                        builder.Run();
-                    }
-                    catch (ContentException)
-                    {
-                        throw;
-                    }
-                    catch (Exception e)
-                    {
-                        Console.Error.WriteLine(e.ToString());
+                        Console.WriteLine("Procesing file " + file);
+
+                        try
+                        {
+                            var builder = new ContentPipelineBuilder(file, options, new SystemIOFileSystem(), new ConsoleLogger());
+                            builder.Run();
+                        }
+                        catch (ContentException)
+                        {
+                            throw;
+                        }
+                        catch (Exception e)
+                        {
+                            exitCode = 1;
+                            Console.Error.WriteLine(e.ToString());
+                        }
                     }
                 })
                 .WithNotParsed(errors =>
                 {
-                    exitCode = 1;
+                    exitCode = -1;
                     errors.Output();
                 });
 
@@ -51,8 +60,6 @@ namespace AgateLib.ContentAssembler
 
             var options = new Options();
 
-            options.ContentBuild = Include;
-
             if (!File.Exists(Include))
             {
                 Log.LogError($"Cannot find AgateLibContentAssembler file {Include} because it does not exist.");
@@ -60,6 +67,7 @@ namespace AgateLib.ContentAssembler
             }
 
             var builder = new ContentPipelineBuilder(
+                Include,
                 options,
                 new SystemIOFileSystem(),
                 new TaskLogger(Log));

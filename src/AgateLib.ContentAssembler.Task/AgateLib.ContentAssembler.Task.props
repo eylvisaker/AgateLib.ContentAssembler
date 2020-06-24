@@ -1,0 +1,10 @@
+
+<Project>
+
+  <PropertyGroup>
+    <DotnetCommand Condition="'$(DotnetCommand)' == ''">dotnet</DotnetCommand>
+    <EnableContentAssembler Condition="'$(EnableContentAssembler)' == ''">true</EnableContentAssembler>
+    <AlcaPath Condition="'$(AssemblerPath)' == ''">$(MSBuildThisFileDirectory)\..\tools\netcoreapp3.1\any\alca.dll</AlcaPath>
+  </PropertyGroup>
+
+</Project>

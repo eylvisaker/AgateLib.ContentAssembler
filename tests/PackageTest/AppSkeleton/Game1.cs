@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace Test
+namespace App
 {
     public class Game1 : Game
     {
@@ -27,6 +27,7 @@ namespace Test
         protected override void LoadContent()
         {
             Content.Load<Texture2D>("Pointer");
+            Program.ExitCode = 0;
             Exit();
         }
 

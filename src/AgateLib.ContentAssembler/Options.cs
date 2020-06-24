@@ -7,7 +7,7 @@ namespace AgateLib.ContentAssembler
 {
     public class Options
     {
-        [Option]
-        public string ContentBuild { get; set; }
+        [Value(0)]
+        public IEnumerable<string> Files { get; set; }
     }
 }

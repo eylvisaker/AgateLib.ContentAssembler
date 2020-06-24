@@ -19,7 +19,7 @@ namespace AgateLib.ContentAssembler.CreditsFileScenarios
 
         public CreditsFileScenarioTests()
         {
-            options = new Options { ContentBuild = "unusedInTests" };
+            options = new Options();
             build = new ProjectBuild
             {
                 Output = "Content",
@@ -93,9 +93,9 @@ namespace AgateLib.ContentAssembler.CreditsFileScenarios
         }
 
         [Theory]
-        [InlineData("Authors",  "       ", "category", "license")]
+        [InlineData("Authors", "       ", "category", "license")]
         [InlineData("Category", "authors", "        ", "license")]
-        [InlineData("License",  "authors", "category", "       ")]
+        [InlineData("License", "authors", "category", "       ")]
         public void BuildFailsForCreditsFileMissing(string emptyField, string authors, string category, string license)
         {
             AddFile("cc-by/Images/emptyCredits.png");
