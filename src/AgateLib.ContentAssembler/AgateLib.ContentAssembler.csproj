@@ -4,6 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <StartupObject>AgateLib.ContentAssembler.EntryPoint</StartupObject>
+    <PackageId>AgateLib.ContentAssembler</PackageId>
     <AssemblyName>alca</AssemblyName>
     <RootNamespace>AgateLib.ContentAssembler</RootNamespace>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
