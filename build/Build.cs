@@ -139,7 +139,7 @@ class Build : NukeBuild
         .DependsOn(IntegrationTest)
         .Executes(() => 
         {
-            GlobFiles(SourceDirectory, "**/*.nupkg")
+            GlobFiles(ArtifactsDirectory, "**/*.nupkg")
                .NotEmpty()
                .ForEach(x =>
                {
