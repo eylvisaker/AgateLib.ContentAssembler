@@ -1,0 +1,5 @@
+include:
+- ContentIn
+output: Content
+create-mgcb: Content.mgcb
+create-credits: credits.txt

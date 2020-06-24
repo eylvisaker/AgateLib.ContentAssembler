@@ -1,8 +1,10 @@
  <Project>
   <PropertyGroup>
-    <Authors>Erik Ylvisaker</Authors>
+    <Company>Vermilion Tower</Company>
+    <Authors>The Vermilion Wizard</Authors>
     <RepositoryUrl>https://github.com/eylvisaker/AgateLib.ContentAssembler</RepositoryUrl>
     <PackageProjectUrl>https://github.com/eylvisaker/AgateLib.ContentAssembler</PackageProjectUrl>
     <PackageLicense>https://raw.githubusercontent.com/eylvisaker/AgateLib.ContentAssembler/master/Jenkinsfile/LICENSE</PackageLicense>
+    <PackageOutputPath>../../artifacts</PackageOutputPath>
   </PropertyGroup>
 </Project>

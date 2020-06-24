@@ -17,7 +17,7 @@ namespace AgateLib.ContentAssembler
 
         public SimpleFileSystemSetup()
         {
-            Options options = new Options { ContentBuild = "unusedInTests" };
+            Options options = new Options();
             build = new ProjectBuild
             {
                 Output = "Content",

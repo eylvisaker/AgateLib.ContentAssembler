@@ -49,6 +49,9 @@ class Build : NukeBuild
     AbsolutePath TestsDirectory => RootDirectory / "tests";
     AbsolutePath ArtifactsDirectory => RootDirectory / "artifacts";
 
+    [PathExecutable(@"powershell.exe")]
+    readonly Tool Powershell;
+
     Target Clean => _ => _
         .Before(Restore)
         .Executes(() =>
@@ -105,29 +108,38 @@ class Build : NukeBuild
         });
 
     Target Pack => _ => _
-        .DependsOn(Compile)
+        .DependsOn(Test)
         .Executes(() =>
         {
             DotNetPack(s => s
                 .SetVersion(Version)
                 .SetConfiguration(Configuration)
-                .EnableNoBuild()
-                .EnableNoRestore()
                 .SetProject("src/AgateLib.ContentModel"));
 
             DotNetPack(s => s
                 .SetVersion(Version)
                 .SetConfiguration(Configuration)
-                .EnableNoBuild()
-                .EnableNoRestore()
                 .SetProject("src/AgateLib.ContentAssembler"));
+                
+            DotNetPack(s => s
+                .SetVersion(Version)
+                .SetConfiguration(Configuration)
+                .SetProject("src/AgateLib.ContentAssembler.Task"));
         });
 
-    Target Publish => _ => _
+    Target IntegrationTest => _ => _
         .DependsOn(Pack)
         .Executes(() => 
         {
-            GlobFiles(SourceDirectory, "**/*.nupkg")
+            Powershell("./BuildTestApp.ps1",
+                       "tests/PackageTest");
+        });
+
+    Target Publish => _ => _
+        .DependsOn(IntegrationTest)
+        .Executes(() => 
+        {
+            GlobFiles(ArtifactsDirectory, "**/*.nupkg")
                .NotEmpty()
                .ForEach(x =>
                {

@@ -9,19 +9,21 @@ namespace AgateLib.ContentAssembler
 {
     public class ContentPipelineBuilder : FileAccessor
     {
+        private string buildFile;
         private Options options;
         private readonly ILogger log;
         private ProjectBuild build;
 
-        public ContentPipelineBuilder(Options options, IFileSystem fileSystem, ILogger log) : base(fileSystem)
+        public ContentPipelineBuilder(string buildFile, Options options, IFileSystem fileSystem, ILogger log) : base(fileSystem)
         {
+            this.buildFile = buildFile;
             this.options = options;
             this.log = log;
         }
 
         public void Run()
         {
-            FileSystem.PathRoot = Path.GetDirectoryName(options.ContentBuild);
+            FileSystem.PathRoot = Path.GetDirectoryName(buildFile);
 
             ReadBuildFile();
 
@@ -32,29 +34,32 @@ namespace AgateLib.ContentAssembler
 
         private void ReadBuildFile()
         {
-            string fileName = options.ContentBuild;
-
             var deserializer = new DeserializerBuilder()
                 .WithNamingConvention(new HyphenatedNamingConvention())
                 .Build();
 
             try
             {
-                build = deserializer.Deserialize<ProjectBuild>(File.ReadAllText(fileName));
+                build = deserializer.Deserialize<ProjectBuild>(File.ReadAllText(buildFile));
+
+                if (build == null)
+                {
+                    throw new InvalidOperationException($"{buildFile} is empty.");
+                }
             }
             catch (YamlException e)
             {
                 log.LogError("YamlDeserialization",
                              "13",
                              "YAML",
-                             Path.GetFullPath(fileName),
+                             Path.GetFullPath(buildFile),
                              e.Start.Line,
                              e.Start.Column,
                              e.End.Line,
                              e.End.Column,
                              e.Message);
 
-                throw new ContentException("Failed to deserialize content.build file.", e);
+                throw new ContentException($"Failed to deserialize {buildFile}.", e);
             }
         }
     }
