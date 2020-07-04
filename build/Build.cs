@@ -39,6 +39,7 @@ class Build : NukeBuild
 
     [Parameter] 
     readonly string NugetApiUrl = "https://api.nuget.org/v3/index.json"; //default
+    
     [Parameter("Overrides the branch name from git.")]
     readonly string BranchName;
 
