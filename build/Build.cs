@@ -89,7 +89,7 @@ class Build : NukeBuild
             string version = System.IO.File.ReadAllText("version.info");
             version += "." + BuildNumber.ToString();
 
-            if (!string.IsNullOrWhiteSpace(BranchName) && BranchName != "master")
+            if (!string.IsNullOrWhiteSpace(BranchName) && BranchName != "main")
             {
                 version += "-" + BranchName.Replace("/", "-");
             }
