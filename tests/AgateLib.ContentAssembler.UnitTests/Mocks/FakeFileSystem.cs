@@ -198,6 +198,9 @@ namespace AgateLib.ContentAssembler.Mocks
 
             public IEnumerable<string> EnumerateFiles(string path)
             {
+                if (!path.EndsWith("/"))
+                    path += "/";
+
                 return fakeFileSystem.files.Keys
                     .Where(x => x.StartsWith(path))
                     .Where(x => x.Length > path.Length)

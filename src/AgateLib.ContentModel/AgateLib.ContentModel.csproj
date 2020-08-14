@@ -5,4 +5,8 @@
     <Configurations>Debug;Release;Release_DesktopGL;Release_WindowsDX;Test;Release_Test</Configurations>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.1" />
+  </ItemGroup>
+
 </Project>

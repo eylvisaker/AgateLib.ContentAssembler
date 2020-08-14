@@ -11,14 +11,14 @@ using YamlDotNet.Serialization.NamingConventions;
 
 namespace AgateLib.ContentAssembler
 {
-    public class IndexBuilder : FileAccessor
+    public class ContentIndexer : FileAccessor
     {
         private Options options;
         private ProjectBuild build;
         private readonly ILogger log;
         private IDeserializer deserializer;
 
-        public IndexBuilder(Options options, ProjectBuild build, IFileSystem fileSystem, ILogger log) : base(fileSystem)
+        public ContentIndexer(Options options, ProjectBuild build, IFileSystem fileSystem, ILogger log) : base(fileSystem)
         {
             this.options = options;
             this.build = build;
@@ -275,9 +275,9 @@ namespace AgateLib.ContentAssembler
 
             try
             {
-                Console.WriteLine(filePath);
-
                 string text = File.ReadAllText(filePath);
+
+                Console.WriteLine($"Reading folder context from {filePath}");
 
                 ContentIndexFile newContext = deserializer.Deserialize<ContentIndexFile>(text);
 

@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 
 namespace AgateLib.ContentAssembler.FileProcessors
 {
-    class IndexFileCreator : FileAccessor, IFileSource
+    public class IndexFileCreator : FileAccessor, IFileSource
     {
         private readonly ContentIndex index;
         private readonly CreateIndex file;
@@ -22,13 +22,16 @@ namespace AgateLib.ContentAssembler.FileProcessors
             this.index = index;
             this.file = file;
 
-            filters = file.Filter.Split('|').Select(FileGlobToRegex).ToArray();
             indexRoot = Path.GetDirectoryName(file.Output);
+
+            filters = file.Filter.Split('|').Select(FileGlobToRegex).ToArray();
         }
 
         public bool IsFile => false;
 
-        public string SourcePath => throw new NotImplementedException();
+        public string SourcePath => throw new NotSupportedException();
+
+        public IReadOnlyList<Regex> Filters => filters;
 
         public void Process(string outputPath)
         {
@@ -88,8 +91,23 @@ namespace AgateLib.ContentAssembler.FileProcessors
 
         private Regex FileGlobToRegex(string arg)
         {
-            return new Regex(arg.Replace(".", "\\.")
-                                .Replace("*", "[^/\\\\]*"));
+            var regex = arg.Replace(".", @"\.")
+                           .Replace("*", @"[^/\\]*");
+
+            if (!file.Recurse)
+            {
+                regex = "^" + indexRoot + @"[\\/]" + regex;
+            }
+            else
+            {
+                regex = "^" + indexRoot + @"[\\/]([^\\/]+[\\/])*" + regex;
+            }
+
+            regex += "$";
+
+            var result = new Regex(regex);
+
+            return result;
         }
 
     }

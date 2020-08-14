@@ -27,7 +27,7 @@ namespace AgateLib.ContentAssembler
 
             ReadBuildFile();
 
-            ContentIndex index = new IndexBuilder(options, build, FileSystem, log).BuildContentIndex();
+            ContentIndex index = new ContentIndexer(options, build, FileSystem, log).BuildContentIndex();
             new FileProcessor(build, index, FileSystem).ProcessFiles();
             new MgcbFileCreator(build, index, FileSystem).CreateMgcbFile();
         }
