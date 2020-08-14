@@ -22,7 +22,7 @@ namespace AgateLib.ContentAssembler.FileProcessors
             this.index = index;
             this.file = file;
 
-            indexRoot = Path.GetDirectoryName(file.Output);
+            indexRoot = Path.GetDirectoryName(file.Output).Replace(@"\", "/");
 
             filters = file.Filter.Split('|').Select(FileGlobToRegex).ToArray();
         }
@@ -91,16 +91,18 @@ namespace AgateLib.ContentAssembler.FileProcessors
 
         private Regex FileGlobToRegex(string arg)
         {
-            var regex = arg.Replace(".", @"\.")
+            var regex = arg.Replace("\\", "/")
+                           .Replace("/", @"[\\/]")
+                           .Replace(".", @"\.")
                            .Replace("*", @"[^/\\]*");
 
             if (!file.Recurse)
             {
-                regex = "^" + indexRoot + @"[\\/]" + regex;
+                regex = "^" + indexRoot.Replace("/", @"[\\/]") + @"[\\/]" + regex;
             }
             else
             {
-                regex = "^" + indexRoot + @"[\\/]([^\\/]+[\\/])*" + regex;
+                regex = "^" + indexRoot.Replace("/", @"[\\/]") + @"[\\/]([^\\/]+[\\/])*" + regex;
             }
 
             regex += "$";

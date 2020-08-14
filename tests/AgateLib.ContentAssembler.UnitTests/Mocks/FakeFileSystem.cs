@@ -12,11 +12,15 @@ namespace AgateLib.ContentAssembler.Mocks
         private Dictionary<string, string> files = new Dictionary<string, string>();
         private Dictionary<string, string> fileCopies = new Dictionary<string, string>();
 
-        public FakeFileSystem()
+        public FakeFileSystem(string pathSeparator = "/")
         {
+            if (pathSeparator.Length != 1)
+                throw new ArgumentException("Path separator must have length 1.");
+
             File = new FakeFile(this);
             Path = new FakePath(this);
             Directory = new FakeDirectory(this);
+            PathSeparator = pathSeparator;
         }
 
         public Dictionary<string, string> FileContents => files;
@@ -45,6 +49,8 @@ namespace AgateLib.ContentAssembler.Mocks
         public IDirectory Directory { get; }
 
         public IPath Path { get; }
+
+        public string PathSeparator { get; }
 
         private class ObservableStream : Stream
         {
@@ -182,10 +188,10 @@ namespace AgateLib.ContentAssembler.Mocks
                 return fakeFileSystem.files.Keys
                     .Where(x => x.StartsWith(path))
                     .Where(x => x.Length > path.Length)
-                    .Where(x => x.Substring(path.Length + 1).Contains("/"))
+                    .Where(x => x.Substring(path.Length + 1).Contains(fakeFileSystem.PathSeparator))
                     .Select(x =>
                     {
-                        int slash = x.IndexOf("/", path.Length + 1);
+                        int slash = x.IndexOf(fakeFileSystem.PathSeparator, path.Length + 1);
                         if (slash >= 0)
                         {
                             return x.Substring(0, slash);
@@ -198,13 +204,13 @@ namespace AgateLib.ContentAssembler.Mocks
 
             public IEnumerable<string> EnumerateFiles(string path)
             {
-                if (!path.EndsWith("/"))
-                    path += "/";
+                if (!path.EndsWith(fakeFileSystem.PathSeparator))
+                    path += fakeFileSystem.PathSeparator;
 
                 return fakeFileSystem.files.Keys
                     .Where(x => x.StartsWith(path))
                     .Where(x => x.Length > path.Length)
-                    .Where(x => !x.Substring(path.Length + 1).Contains("/"));
+                    .Where(x => !x.Substring(path.Length + 1).Contains(fakeFileSystem.PathSeparator));
             }
         }
 
@@ -219,17 +225,17 @@ namespace AgateLib.ContentAssembler.Mocks
 
             public string Combine(string path1, string path2)
             {
-                return $"{path1}/{path2}";
+                return $"{path1}{fakeFileSystem.PathSeparator}{path2}";
             }
 
             public string Combine(string path1, string path2, string path3)
             {
-                return $"{path1}/{path2}/{path3}";
+                return $"{path1}{fakeFileSystem.PathSeparator}{path2}{fakeFileSystem.PathSeparator}{path3}";
             }
 
             public string GetDirectoryName(string path)
             {
-                return System.IO.Path.GetDirectoryName(path).Replace('\\', '/');
+                return System.IO.Path.GetDirectoryName(path).Replace('\\', fakeFileSystem.PathSeparator[0]);
             }
 
             public string GetFileName(string path)

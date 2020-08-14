@@ -54,5 +54,25 @@ namespace AgateLib.ContentAssembler.CreateIndexTests
 
             ifc.Filters[0].IsMatch(filename).Should().Be(shouldMatch);
         }
+
+        [Theory]
+        [InlineData(@"/", @"Sprites/LPC/body/female/dark.png", true)]
+        [InlineData(@"\", @"Sprites/LPC/body/female/dark.png", true)]
+        [InlineData(@"/", @"Sprites\LPC\body\female\dark.png", true)]
+        [InlineData(@"\", @"Sprites\LPC\body\female\dark.png", true)]
+        public void PatternMatchMultipleParentFolders(string pathSep, string filename, bool shouldMatch)
+        {
+            var fileSystem = new FakeFileSystem(pathSep);
+            var ifc = new IndexFileCreator(fileSystem, null, new CreateIndex
+            {
+                Filter = "*.png",
+                Output = "Sprites/LPC/sprite.index",
+                Recurse = true,
+            });
+
+            ifc.Filters.Count.Should().Be(1);
+
+            ifc.Filters[0].IsMatch(filename).Should().Be(shouldMatch);
+        }
     }
 }
