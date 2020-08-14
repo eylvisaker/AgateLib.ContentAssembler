@@ -64,7 +64,7 @@
     <Compile Include="FolderContexts\SubdirectoryContext.cs" />
     <Compile Include="InvalidCreditsException.cs" />
     <Compile Include="Logger.cs" />
-    <Compile Include="IndexBuilder.cs" />
+    <Compile Include="ContentIndexer.cs" />
     <Compile Include="Loggers\ConsoleLogger.cs" />
     <Compile Include="Loggers\TaskLogger.cs" />
     <Compile Include="MgcbFileCreator.cs" />

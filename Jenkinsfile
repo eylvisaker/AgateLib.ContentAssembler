@@ -58,8 +58,8 @@ pipeline {
             script {
                 mail (
           to: 'eylvisaker@gmail.com',
-          subject: "FAILED BUILD - AgateLib.ContentAssembler ${env.BRANCH_NAME} ${env.BUILD_NUMBER}",
-          body: "Generations of Lore branch ${env.BRANCH_NAME} failed to build."
+          subject: "b.vt: FAILED BUILD - AgateLib.ContentAssembler ${env.BRANCH_NAME} ${env.BUILD_NUMBER}",
+          body: "AgateLib.ContentAssembler branch ${env.BRANCH_NAME} failed to build."
         )
             }
         }
@@ -67,8 +67,8 @@ pipeline {
             script {
                 mail (
           to: 'eylvisaker@gmail.com',
-          subject: "FIXED BUILD - AgateLib.ContentAssembler ${env.BRANCH_NAME} ${env.BUILD_NUMBER}",
-          body: "Generations of Lore branch ${env.BRANCH_NAME} is fixed now."
+          subject: "b.vt: FIXED BUILD - AgateLib.ContentAssembler ${env.BRANCH_NAME} ${env.BUILD_NUMBER}",
+          body: "AgateLib.ContentAssembler branch ${env.BRANCH_NAME} is fixed now."
         )
             }
         }

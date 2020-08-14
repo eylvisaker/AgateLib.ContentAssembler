@@ -39,6 +39,7 @@ class Build : NukeBuild
 
     [Parameter] 
     readonly string NugetApiUrl = "https://api.nuget.org/v3/index.json"; //default
+    
     [Parameter("Overrides the branch name from git.")]
     readonly string BranchName;
 
@@ -88,7 +89,7 @@ class Build : NukeBuild
             string version = System.IO.File.ReadAllText("version.info");
             version += "." + BuildNumber.ToString();
 
-            if (!string.IsNullOrWhiteSpace(BranchName) && BranchName != "master")
+            if (!string.IsNullOrWhiteSpace(BranchName) && BranchName != "main")
             {
                 version += "-" + BranchName.Replace("/", "-");
             }
@@ -143,7 +144,7 @@ class Build : NukeBuild
                .NotEmpty()
                .ForEach(x =>
                {
-                   if (BranchName != "master" && BranchName != "devel") 
+                   if (BranchName != "main" && BranchName != "devel") 
                    {
                        Console.WriteLine($"File {x} is not designated for pushing as release or prerelease Nuget package.");
                        return;

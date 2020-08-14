@@ -10,10 +10,10 @@ namespace AgateLib.ContentAssembler
 {
     public partial class SimpleFileSystemSetup
     {
-        private FakeFileSystem fileSystem = new FakeFileSystem();
-        private IndexBuilder builder;
-        private ProjectBuild build;
-        private Mock<ILogger> log = new Mock<ILogger>();
+        protected readonly FakeFileSystem fileSystem = new FakeFileSystem();
+        protected readonly ContentIndexer builder;
+        protected readonly ProjectBuild build;
+        protected readonly Mock<ILogger> log = new Mock<ILogger>();
 
         public SimpleFileSystemSetup()
         {
@@ -47,7 +47,7 @@ namespace AgateLib.ContentAssembler
             AddFile("cc-by/Images/CREDITS.txt", CreditsFileCCBY());
             AddFile("cc-by/content.index", ContentIndexForCCBY());
 
-            builder = new IndexBuilder(options, build, fileSystem, log.Object);
+            builder = new ContentIndexer(options, build, fileSystem, log.Object);
         }
 
         private string CreditsFileCCBY()
@@ -75,7 +75,8 @@ exclude-folders:
             fileSystem.AddFile(fileName, content ?? fileName);
         }
 
-        protected void RemoveFile(string fileName) {
+        protected void RemoveFile(string fileName)
+        {
             fileSystem.RemoveFile(fileName);
         }
     }

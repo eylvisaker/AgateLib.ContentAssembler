@@ -12,7 +12,7 @@ namespace AgateLib.ContentAssembler.CreditsFileScenarios
     public class CreditsFileScenarioTests
     {
         private FakeFileSystem fileSystem = new FakeFileSystem();
-        private IndexBuilder builder;
+        private ContentIndexer builder;
         private Options options;
         private ProjectBuild build;
         private MockLogger log = new MockLogger();
@@ -39,7 +39,7 @@ namespace AgateLib.ContentAssembler.CreditsFileScenarios
             //AddFile("cc-by/Images/CREDITS.txt", ValidCreditsFile());
             AddFile("cc-by/content.index", ContentIndexForCCBY());
 
-            builder = new IndexBuilder(options, build, fileSystem, log.Object);
+            builder = new ContentIndexer(options, build, fileSystem, log.Object);
 
         }
 
