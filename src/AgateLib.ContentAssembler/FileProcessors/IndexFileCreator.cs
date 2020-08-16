@@ -85,7 +85,7 @@ namespace AgateLib.ContentAssembler.FileProcessors
         }
 
         private IEnumerable<string> MatchFiles()
-            => index.OutputFiles.Keys.Where(x => x.StartsWith(indexRoot)).Where(FilterMatches);
+            => index.OutputFiles.Keys.Where(x => x.Replace(@"\", "/").StartsWith(indexRoot)).Where(FilterMatches);
 
         private bool FilterMatches(string outputFile) => filters.Any(x => x.IsMatch(outputFile));
 
